@@ -21,7 +21,7 @@ if __name__ == '__main__':
     parser.add_argument('--steps', type=int, default=64, help=help)
 
     help = "Force re-measure and overwrite existing results"
-    parser.add_argument('--force', action='store_true', help=help)
+    parser.add_argument('--remeasure', action='store_true', help=help)
 
     help = "The mode of display of results"
     parser.add_argument('--display', type=str, choices=['PASS'], default='PASS', help=help)
@@ -33,19 +33,18 @@ if __name__ == '__main__':
         init = qWB.buildQC.Init.singleNode
 # End Command line arguments
 
+# File path to store results
 RESULT_FILE = f"./{args.shift}.{args.coin}.{args.basis}/{args.init}.csv"
 def displayResult():
     pass
 
 # Check if file exists
 import os
-if not args.force and os.path.exists(RESULT_FILE):
+if not args.remeasure and os.path.exists(RESULT_FILE):
     displayResult()
     exit()
-else:
-    print("File does not exist")
-showResults()
 
+# Run the quantum walk
 if args.shift == '16nT':
     shiftCoinQC = qWB.buildQC.build16nTQW(1, coin, init)
 
